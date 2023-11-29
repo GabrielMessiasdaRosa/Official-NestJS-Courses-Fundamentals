@@ -2,31 +2,31 @@
 GET http://localhost:3000/coffees
 
 ###
-GET http://localhost:3000/coffees/1
+GET http://localhost:3000/coffees/6932f4c8-02ee-4804-93ed-b09661f9a336
 
 ###
 POST http://localhost:3000/coffees
 Content-Type: application/json
 
 {
-    "name": "Espresso",
-    "brand": 222,
-    "price": 2.99
+    "name": "Espreço",
+    "brand": "Mellita",
+    "flavors": ["chocolate", "vanilla"]
 }
 
 ###
-PUT http://localhost:3000/coffees/1
+PATCH http://localhost:3000/coffees/96731aa3-49f2-4c73-b477-fded8fb5b655
 Content-Type: application/json
 
 {
-    "name": "Espresso",
-    "brand": "Starbucks",
-    "price": 3.49
+    "name": "Espressosss",
+    "brand": "Mellita",
+    "flavors": ["chocolate", "vanilla"]
 }
 
 ###
-DELETE http://localhost:3000/coffees/1
+DELETE http://localhost:3000/coffees/82052cde-82e1-4b2b-85cf-a9d7cf135883
 
-
-
+###
+POST http://localhost:3000/coffees/clear-coffees
 

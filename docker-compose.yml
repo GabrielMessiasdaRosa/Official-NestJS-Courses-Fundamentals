@@ -17,8 +17,6 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=nestjs_db
-    depends_on:
-      - pgsqldb
     networks:
       - default
 
@@ -31,12 +29,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: nestjs_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
     networks:
       - default
-
-volumes:
-  pgdata:
 
 networks:
   default:

@@ -15,3 +15,6 @@ npm i class-validator class-transformer
 
 this will make sure that only the fields that we have defined in our DTO will
 be accepted and that the data will be transformed to the correct type.
+
+// Install neccessary TypeORM dependencies
+npm install @nestjs/typeorm typeorm pg
