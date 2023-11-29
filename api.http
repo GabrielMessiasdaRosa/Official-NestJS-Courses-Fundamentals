@@ -11,6 +11,7 @@ Content-Type: application/json
 {
     "name": "Espreço",
     "brand": "Mellita",
+    "description": "Espresso is a coffee-brewing method of Italian origin, in which a small amount of nearly boiling water is forced under pressure through finely-ground coffee beans.",
     "flavors": ["chocolate", "vanilla"]
 }
 
