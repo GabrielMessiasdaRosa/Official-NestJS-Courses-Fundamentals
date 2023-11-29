@@ -6,12 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  Req,
+  Query,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Controller('coffees')
@@ -24,7 +25,7 @@ export class CoffeesController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.coffeesService.findAll();
   }
 
