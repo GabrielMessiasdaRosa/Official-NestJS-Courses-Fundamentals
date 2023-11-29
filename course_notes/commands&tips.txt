@@ -1,0 +1,17 @@
+// Apply the ValidationPipe globally in our main.ts file
+app.useGlobalPipes(new ValidationPipe());
+
+// Install needed dependencies
+npm i class-validator class-transformer 
+
+// add thist to main.ts
+ app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+this will make sure that only the fields that we have defined in our DTO will
+be accepted and that the data will be transformed to the correct type.

@@ -1,3 +1,32 @@
+
 GET http://localhost:3000/coffees
+
+###
+GET http://localhost:3000/coffees/1
+
+###
+POST http://localhost:3000/coffees
 Content-Type: application/json
+
+{
+    "name": "Espresso",
+    "brand": 222,
+    "price": 2.99
+}
+
+###
+PUT http://localhost:3000/coffees/1
+Content-Type: application/json
+
+{
+    "name": "Espresso",
+    "brand": "Starbucks",
+    "price": 3.49
+}
+
+###
+DELETE http://localhost:3000/coffees/1
+
+
+
 
