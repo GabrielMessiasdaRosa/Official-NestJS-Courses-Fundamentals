@@ -3,31 +3,44 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
+import { Connection, Repository } from 'typeorm';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CoffeeEntity } from './entities/coffee.entity';
+import { FlavorEntity } from './entities/flavor.entity';
 
 @Injectable()
 export class CoffeesService {
   constructor(
     @InjectRepository(CoffeeEntity)
     private readonly coffeeRepository: Repository<CoffeeEntity>,
+
+    @InjectRepository(FlavorEntity)
+    private readonly flavorRepository: Repository<FlavorEntity>,
+
+    @InjectConnection() private readonly connection: Connection,
   ) {}
 
+  // CRUD methods
   async create(createCoffeeDto: CreateCoffeeDto): Promise<CoffeeEntity> {
-    const newCoffee = this.coffeeRepository.create(createCoffeeDto);
-    console.log('newcoffee', newCoffee);
-    await this.coffeeRepository.save(newCoffee);
-    return {
-      id: newCoffee.id,
+    const flavors: FlavorEntity[] = await Promise.all(
+      createCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
+    );
+
+    const newCoffee = this.coffeeRepository.create({
       ...createCoffeeDto,
-    };
+      flavors,
+    });
+
+    await this.coffeeRepository.save(newCoffee);
+    return newCoffee;
   }
 
   async findAll() {
-    return await this.coffeeRepository.find();
+    return await this.coffeeRepository.find({
+      relations: ['flavors'],
+    });
   }
 
   async findOne(id: string): Promise<CoffeeEntity> {
@@ -37,10 +50,12 @@ export class CoffeesService {
     if (!checkUUID.test(id)) {
       throw new BadRequestException(`Invalid ID`);
     }
+
     const coffee = await this.coffeeRepository.findOne({
       where: { id },
+      relations: ['flavors'],
     });
-    console.log(coffee);
+
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
@@ -51,15 +66,21 @@ export class CoffeesService {
     id: string,
     updateCoffeeDto: UpdateCoffeeDto,
   ): Promise<CoffeeEntity> {
+    const flavors: FlavorEntity[] =
+      updateCoffeeDto.flavors &&
+      (await Promise.all(
+        updateCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
+      ));
+
     const coffee = await this.coffeeRepository.preload({
-      id,
+      id: id,
       ...updateCoffeeDto,
+      flavors,
     });
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
-    await this.coffeeRepository.update(id, coffee);
-    return coffee;
+    return await this.coffeeRepository.save(coffee);
   }
 
   async remove(id: string): Promise<void> {
@@ -71,7 +92,20 @@ export class CoffeesService {
     return;
   }
 
+  // Other methods
   async clearCoffees(): Promise<void> {
-    await this.coffeeRepository.clear();
+    await this.connection.query('TRUNCATE TABLE "Coffees" CASCADE');
+  }
+
+  private async preloadFlavorByName(name: string) {
+    const existingFlavor = await this.flavorRepository.findOne({
+      where: { name },
+    });
+    if (existingFlavor) {
+      return existingFlavor;
+    }
+    const newFlavor = this.flavorRepository.create({ name });
+    await this.flavorRepository.save(newFlavor);
+    return newFlavor;
   }
 }

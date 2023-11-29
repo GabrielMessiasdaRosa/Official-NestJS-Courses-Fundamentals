@@ -15,13 +15,13 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:3000/coffees/96731aa3-49f2-4c73-b477-fded8fb5b655
+PATCH http://localhost:3000/coffees/ea2c5cfc-bfeb-41d5-8f02-8d37dc6c0338
 Content-Type: application/json
 
 {
     "name": "Espressosss",
     "brand": "Mellita",
-    "flavors": ["chocolate", "vanilla"]
+    "flavors": ["chocolate"]
 }
 
 ###
