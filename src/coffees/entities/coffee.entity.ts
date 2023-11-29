@@ -1,12 +1,14 @@
 import {
   Column,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FlavorEntity } from './flavor.entity';
 
+@Index(['name', 'brand', 'id', 'flavors'])
 // each entity is a class that maps to a database table
 @Entity('Coffees')
 export class CoffeeEntity {
@@ -25,4 +27,7 @@ export class CoffeeEntity {
     cascade: true, // ['insert']
   })
   flavors: FlavorEntity[];
+
+  @Column({ default: 0 })
+  recommendations: number;
 }
