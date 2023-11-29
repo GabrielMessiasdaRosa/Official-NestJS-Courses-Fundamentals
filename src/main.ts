@@ -14,6 +14,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       // transform: true will transform the incoming data to the correct type (e.g., from string to number)
       transform: true,
+      transformOptions: {
+        // enableImplicitConversion: true will transform query params to the correct type (e.g., from string to number)
+        enableImplicitConversion: true,
+      },
     }),
   );
   app.enableCors();
