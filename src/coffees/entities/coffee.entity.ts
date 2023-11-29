@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { FlavorEntity } from './flavor.entity';
 
-@Index(['name', 'brand', 'id', 'flavors'])
+@Index(['name', 'brand', 'id'])
 // each entity is a class that maps to a database table
 @Entity('Coffees')
 export class CoffeeEntity {
