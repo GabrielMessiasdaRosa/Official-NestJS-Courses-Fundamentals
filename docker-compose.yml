@@ -6,12 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - '3000:3000'
+      - '8080:8080'
     volumes:
       - .:/app
     environment:
       - NODE_ENV=development
-      - PORT=3000
+      - PORT=8080
       - DB_HOST=pgsqldb
       - DB_PORT=5432
       - DB_USERNAME=postgres
@@ -32,6 +32,23 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     networks:
       - default
+
+  frontend-next-app:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile.frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    networks:
+      - default
+    depends_on:
+      - pgsqldb
+      - nestjs_app
 
 networks:
   default:

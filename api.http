@@ -1,22 +1,22 @@
 
-GET http://localhost:3000/coffees
+GET http://localhost:8080/coffees
 
 ###
-GET http://localhost:3000/coffees/6932f4c8-02ee-4804-93ed-b09661f9a336
+GET http://localhost:8080/coffees/6932f4c8-02ee-4804-93ed-b09661f9a336
 
 ###
-POST http://localhost:3000/coffees
+POST http://localhost:8080/coffees
 Content-Type: application/json
 
 {
     "name": "Espreço",
     "brand": "Mellita",
-    "description": "Espresso is a coffee-brewing method of Italian origin, in which a small amount of nearly boiling water is forced under pressure through finely-ground coffee beans.",
+    "recommendations": 0,
     "flavors": ["chocolate", "vanilla"]
 }
 
 ###
-PATCH http://localhost:3000/coffees/ea2c5cfc-bfeb-41d5-8f02-8d37dc6c0338
+PATCH http://localhost:8080/coffees/ea2c5cfc-bfeb-41d5-8f02-8d37dc6c0338
 Content-Type: application/json
 
 {
@@ -26,8 +26,8 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/coffees/82052cde-82e1-4b2b-85cf-a9d7cf135883
+DELETE http://localhost:8080/coffees/82052cde-82e1-4b2b-85cf-a9d7cf135883
 
 ###
-POST http://localhost:3000/coffees/clear-coffees
+POST http://localhost:8080/coffees/clear-coffees
 
