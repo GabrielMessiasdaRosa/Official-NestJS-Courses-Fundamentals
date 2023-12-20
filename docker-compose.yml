@@ -8,7 +8,7 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - .:/app
+      - .:/home/node/app
     environment:
       - NODE_ENV=development
       - PORT=8080
@@ -17,8 +17,6 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=nestjs_db
-    networks:
-      - default
 
   pgsqldb:
     image: postgres:latest
@@ -29,27 +27,4 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: nestjs_db
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
-    networks:
-      - default
-
-  frontend-next-app:
-    build:
-      context: ./frontend/
-      dockerfile: Dockerfile.frontend
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./frontend:/app
-    environment:
-      - NODE_ENV=development
-      - PORT=3000
-    networks:
-      - default
-    depends_on:
-      - pgsqldb
-      - nestjs_app
-
-networks:
-  default:
-    name: nestjs_app_network
+      - ../pgdata:/var/lib/postgresql/data
